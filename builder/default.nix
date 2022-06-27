@@ -213,6 +213,8 @@ let
     , buildFlags ? ""
     , buildFlagsArray ? ""
 
+    , postGo ? "" 
+
     , ...
     }@attrs:
     let
@@ -257,7 +259,7 @@ let
         GOFLAGS = "-mod=vendor";
 
         configurePhase = attrs.configurePhase or ''
-          #runHook preConfigure
+          runHook preConfigure
 
           export GOCACHE=$TMPDIR/go-cache
           export GOPATH="$TMPDIR/go"
@@ -328,8 +330,8 @@ let
           if [ -z "$enableParallelBuilding" ]; then
               export NIX_BUILD_CORES=1
           fi
-
-          runHook preConfigure
+          
+          runHook postGo
           for pkg in $(getGoDirs ""); do
             echo "Building subPackage $pkg"
             buildGoDir install "$pkg"

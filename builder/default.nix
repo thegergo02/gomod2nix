@@ -273,6 +273,8 @@ let
         '';
 
         buildPhase = attrs.buildPhase or ''
+          runHook preBuild
+
           exclude='\(/_\|examples\|Godeps\|testdata'
           if [[ -n "$excludedPackages" ]]; then
             IFS=' ' read -r -a excludedArr <<<$excludedPackages

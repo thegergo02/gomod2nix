@@ -257,7 +257,7 @@ let
         GOFLAGS = "-mod=vendor";
 
         configurePhase = attrs.configurePhase or ''
-          runHook preConfigure
+          #runHook preConfigure
 
           export GOCACHE=$TMPDIR/go-cache
           export GOPATH="$TMPDIR/go"
@@ -269,7 +269,7 @@ let
               ln -s ${vendorEnv} vendor
           fi
 
-          #runHook postConfigure
+          runHook postConfigure
         '';
 
         buildPhase = attrs.buildPhase or ''
@@ -329,7 +329,7 @@ let
               export NIX_BUILD_CORES=1
           fi
 
-          runHook postConfigure
+          runHook preConfigure
           for pkg in $(getGoDirs ""); do
             echo "Building subPackage $pkg"
             buildGoDir install "$pkg"

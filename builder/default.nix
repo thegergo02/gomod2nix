@@ -273,8 +273,6 @@ let
         '';
 
         buildPhase = attrs.buildPhase or ''
-          runHook preBuild
-
           exclude='\(/_\|examples\|Godeps\|testdata'
           if [[ -n "$excludedPackages" ]]; then
             IFS=' ' read -r -a excludedArr <<<$excludedPackages
@@ -328,6 +326,8 @@ let
           if [ -z "$enableParallelBuilding" ]; then
               export NIX_BUILD_CORES=1
           fi
+
+          runHook preBuild
           for pkg in $(getGoDirs ""); do
             echo "Building subPackage $pkg"
             buildGoDir install "$pkg"

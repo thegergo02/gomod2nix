@@ -269,7 +269,7 @@ let
               ln -s ${vendorEnv} vendor
           fi
 
-          runHook postConfigure
+          #runHook postConfigure
         '';
 
         buildPhase = attrs.buildPhase or ''
@@ -329,7 +329,7 @@ let
               export NIX_BUILD_CORES=1
           fi
 
-          runHook preBuild
+          runHook postConfigure
           for pkg in $(getGoDirs ""); do
             echo "Building subPackage $pkg"
             buildGoDir install "$pkg"
